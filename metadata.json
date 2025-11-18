@@ -1,0 +1,51 @@
+{
+  "name": "chrisallen-paw_ansible_role_ruby",
+  "version": "0.1.0",
+  "author": "chrisallen",
+  "summary": "Converted from Ansible role on 2025-11-18",
+  "license": "Apache-2.0",
+  "source": "https://github.com/example/converted-module",
+  "project_page": "https://github.com/example/converted-module",
+  "issues_url": "https://github.com/example/converted-module",
+  "dependencies": [
+    {
+      "name": "garrettrowell-par",
+      "version_requirement": ">= 0.1.0 < 2.0.0"
+    },
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.25.0 < 10.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "",
+        "14.04",
+        "12.04",
+        "18.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 6.0.0 < 9.0.0"
+    }
+  ],
+  "tags": [
+    "ansible",
+    "converted",
+    "ruby"
+  ],
+  "ansible_conversion": {
+    "converter_version": "0.4.0",
+    "converted_at": "2025-11-18T12:22:40Z",
+    "source_version": "0.1.0",
+    "source_type": "role"
+  },
+  "pdk-version": "3.4.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#3.4.0",
+  "template-ref": "tags/3.4.0-0-gd3cc13f"
+}

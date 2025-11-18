@@ -1,0 +1,10 @@
+---
+paw_ansible_role_ruby::workspace: "/root"
+paw_ansible_role_ruby::ruby_install_bundler: true
+paw_ansible_role_ruby::ruby_install_gems: []
+paw_ansible_role_ruby::ruby_install_gems_user: "{{ ansible_user }}"
+paw_ansible_role_ruby::ruby_install_from_source: false
+paw_ansible_role_ruby::ruby_download_url: http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz
+paw_ansible_role_ruby::ruby_version: 3.0.0
+paw_ansible_role_ruby::ruby_source_configure_command: "./configure --enable-shared"
+paw_ansible_role_ruby::ruby_rubygems_package_name: rubygems

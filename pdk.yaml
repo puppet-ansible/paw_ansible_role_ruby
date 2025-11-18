@@ -1,0 +1,7 @@
+---
+# Exclude Ansible modules from PDK validation
+# These are Ansible files (YAML, Jinja2 templates) not Puppet code
+ignore:
+  - lib/puppet_x/ansible_modules/**/*.yml
+  - lib/puppet_x/ansible_modules/**/*.yaml
+  - lib/puppet_x/ansible_modules/**/*.j2

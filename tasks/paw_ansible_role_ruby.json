@@ -1,0 +1,96 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Execute the entire Ansible role imperatively",
+  "input_method": "environment",
+  "parameters": {
+    "workspace": {
+      "description": "Ansible role variable (default: /root)",
+      "type": "Optional[String]"
+    },
+    "ruby_install_bundler": {
+      "description": "Whether this role should install Bundler.",
+      "type": "Optional[Boolean]"
+    },
+    "ruby_install_gems": {
+      "description": "A list of Ruby gems to install.",
+      "type": "Optional[Array]"
+    },
+    "ruby_install_gems_user": {
+      "description": "The user account under which Ruby gems will be installed.",
+      "type": "Optional[String]"
+    },
+    "ruby_install_from_source": {
+      "description": "the 'ruby_version' variable instead of using a package.",
+      "type": "Optional[Boolean]"
+    },
+    "ruby_download_url": {
+      "description": "Ansible role variable (default: http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz)",
+      "type": "Optional[String]"
+    },
+    "ruby_version": {
+      "description": "Ansible role variable (default: 3.0.0)",
+      "type": "Optional[String]"
+    },
+    "ruby_source_configure_command": {
+      "description": "Ansible role variable (default: ./configure --enable-shared)",
+      "type": "Optional[String]"
+    },
+    "ruby_rubygems_package_name": {
+      "description": "Default should usually work, but this will be overridden on Ubuntu 14.04.",
+      "type": "Optional[String]"
+    },
+    "par_tags": {
+      "description": "An array of Ansible tags to execute (optional)",
+      "type": "Optional[Array[String]]"
+    },
+    "par_skip_tags": {
+      "description": "An array of Ansible tags to skip (optional)",
+      "type": "Optional[Array[String]]"
+    },
+    "par_start_at_task": {
+      "description": "The name of the task to start execution at (optional)",
+      "type": "Optional[String]"
+    },
+    "par_limit": {
+      "description": "Limit playbook execution to specific hosts (optional)",
+      "type": "Optional[String]"
+    },
+    "par_verbose": {
+      "description": "Enable verbose output from Ansible (optional)",
+      "type": "Optional[Boolean]"
+    },
+    "par_check_mode": {
+      "description": "Run Ansible in check mode (dry-run) (optional)",
+      "type": "Optional[Boolean]"
+    },
+    "par_timeout": {
+      "description": "Timeout in seconds for playbook execution (optional)",
+      "type": "Optional[Integer]"
+    },
+    "par_user": {
+      "description": "Remote user to use for Ansible connections (optional)",
+      "type": "Optional[String]"
+    },
+    "par_env_vars": {
+      "description": "Additional environment variables for ansible-playbook execution (optional)",
+      "type": "Optional[Hash]"
+    }
+  },
+  "implementations": [
+    {
+      "name": "paw_ansible_role_ruby.sh",
+      "requirements": [
+        "shell"
+      ],
+      "input_method": "environment"
+    },
+    {
+      "name": "paw_ansible_role_ruby.ps1",
+      "requirements": [
+        "powershell"
+      ],
+      "input_method": "environment"
+    }
+  ]
+}
