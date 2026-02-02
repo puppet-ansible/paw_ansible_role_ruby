@@ -2,7 +2,7 @@
   "name": "chrisallen-paw_ansible_role_ruby",
   "version": "0.1.0",
   "author": "chrisallen",
-  "summary": "Converted from Ansible role on 2025-11-18",
+  "summary": "Converted from Ansible role on 2026-02-02",
   "license": "Apache-2.0",
   "source": "https://github.com/example/converted-module",
   "project_page": "https://github.com/example/converted-module",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "garrettrowell-par",
-      "version_requirement": ">= 0.1.0 < 2.0.0"
+      "version_requirement": ">= 0.2.0 < 2.0.0"
     },
     {
       "name": "puppetlabs-stdlib",
@@ -41,7 +41,7 @@
   ],
   "ansible_conversion": {
     "converter_version": "0.4.0",
-    "converted_at": "2025-11-18T12:22:40Z",
+    "converted_at": "2026-02-02T11:27:52Z",
     "source_version": "0.1.0",
     "source_type": "role"
   },

@@ -1,0 +1,7 @@
+# Puppet Syntax configuration
+# Exclude plans directory - plans use Bolt-specific syntax and are validated by puppet-plan-syntax
+---
+exclude_paths:
+  - 'plans/**/*.pp'
+  - 'bolt-project.yaml'
+  - 'bolt.yaml'

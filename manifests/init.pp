@@ -10,6 +10,7 @@
 # @param ruby_version
 # @param ruby_source_configure_command
 # @param ruby_rubygems_package_name Default should usually work, but this will be overridden on Ubuntu 14.04.
+# @param par_vardir Base directory for Puppet agent cache (uses lookup('paw::par_vardir') for common config)
 # @param par_tags An array of Ansible tags to execute (optional)
 # @param par_skip_tags An array of Ansible tags to skip (optional)
 # @param par_start_at_task The name of the task to start execution at (optional)
@@ -27,10 +28,11 @@ class paw_ansible_role_ruby (
   Array $ruby_install_gems = [],
   String $ruby_install_gems_user = '{{ ansible_user }}',
   Boolean $ruby_install_from_source = false,
-  String $ruby_download_url = 'http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz',
-  String $ruby_version = '3.0.0',
+  String $ruby_download_url = 'http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.7.tar.gz',
+  String $ruby_version = '3.4.7',
   String $ruby_source_configure_command = './configure --enable-shared',
   String $ruby_rubygems_package_name = 'rubygems',
+  Optional[Stdlib::Absolutepath] $par_vardir = undef,
   Optional[Array[String]] $par_tags = undef,
   Optional[Array[String]] $par_skip_tags = undef,
   Optional[String] $par_start_at_task = undef,
@@ -44,14 +46,13 @@ class paw_ansible_role_ruby (
   Optional[Boolean] $par_exclusive = undef
 ) {
 # Execute the Ansible role using PAR (Puppet Ansible Runner)
-  $vardir = $facts['puppet_vardir'] ? {
-    undef   => $settings::vardir ? {
-      undef   => '/opt/puppetlabs/puppet/cache',
-      default => $settings::vardir,
-    },
-    default => $facts['puppet_vardir'],
+# Playbook synced via pluginsync to agent's cache directory
+# Check for common paw::par_vardir setting, then module-specific, then default
+  $_par_vardir = $par_vardir ? {
+    undef   => lookup('paw::par_vardir', Stdlib::Absolutepath, 'first', '/opt/puppetlabs/puppet/cache'),
+    default => $par_vardir,
   }
-  $playbook_path = "${vardir}/lib/puppet_x/ansible_modules/ansible_role_ruby/playbook.yml"
+  $playbook_path = "${_par_vardir}/lib/puppet_x/ansible_modules/ansible_role_ruby/playbook.yml"
 
   par { 'paw_ansible_role_ruby-main':
     ensure        => present,

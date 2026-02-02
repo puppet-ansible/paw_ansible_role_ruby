@@ -25,11 +25,11 @@
       "type": "Optional[Boolean]"
     },
     "ruby_download_url": {
-      "description": "Ansible role variable (default: http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz)",
+      "description": "Ansible role variable (default: http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.7.tar.gz)",
       "type": "Optional[String]"
     },
     "ruby_version": {
-      "description": "Ansible role variable (default: 3.0.0)",
+      "description": "Ansible role variable (default: 3.4.7)",
       "type": "Optional[String]"
     },
     "ruby_source_configure_command": {
