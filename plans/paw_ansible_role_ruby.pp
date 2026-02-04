@@ -1,12 +1,20 @@
 # Execute Ansible role across inventory hosts
 #
-# This plan parses Ansible inventory, filters targets, and executes the paw_ansible_role_ruby task
-# on each host with merged variables from group_vars and host_vars.
+# This plan uses PAR (Puppet Ansible Runner) module functions to process Ansible inventory
+# and execute tasks with proper variable precedence. The plan follows a 4-step workflow:
+#
+# 1. Parse inventory using par::parse_inventory() - supports URLs, files, inline content
+# 2. Filter targets using par::filter_targets() - apply limit/groups patterns
+# 3. Merge variables using par::merge_vars() - all > group > host precedence
+# 4. Execute tasks - run_task() on each target with merged variables
+#
+# PAR module handles data processing (inventory parsing, filtering, variable merging).
+# This plan orchestrates task execution using the processed data.
 #
 # Uses garrettrowell-par module (>= 0.2.0) helper functions:
-#   - par::parse_inventory() - Parse inventory files (INI/YAML/JSON/dynamic)
+#   - par::parse_inventory() - Parse inventory files (INI/YAML/JSON/dynamic/URL)
 #   - par::filter_targets() - Filter hosts by limit/groups patterns
-#   - par::merge_vars() - Merge group_vars and host_vars with proper precedence
+#   - par::merge_vars() - Merge variables with proper precedence
 #
 # @summary Execute paw_ansible_role_ruby task across Ansible inventory hosts
 #
@@ -80,18 +88,17 @@ plan paw_ansible_role_ruby (
   # Step 1: Parse inventory using PAR module function
   $inventory = par::parse_inventory($inventory_source)
   
-  # Step 2: Filter targets based on limit/groups
-  $targets = par::filter_targets($inventory, $limit, $groups)
+  # Step 2: Filter targets based on limit/groups (optional)
+  $filtered = par::filter_targets($inventory, $limit, $groups)
   
-  # Step 3: Execute task on each target with merged variables
+  # Step 3: Merge variables with proper precedence (all → group → host)
+  $targets = par::merge_vars($filtered)
+  
+  # Step 4: Execute task on each target with merged variables
   $results = if $parallel {
     # Parallel execution with concurrency limit
     $targets.slice($concurrency).map |$batch| {
       parallelize($batch) |$target| {
-        # Merge group_vars and host_vars for this target
-        # PAR merge_vars handles group filtering based on target membership
-        $merged_vars = par::merge_vars($inventory['group_vars'], $target['host_vars'], $target['groups'])
-        
         # Add PAR control parameters if specified (filter out undef values)
         $par_params = {
           'par_check_mode' => $par_check_mode,
@@ -102,20 +109,21 @@ plan paw_ansible_role_ruby (
           'par_user'       => $par_user,
         }
         $defined_par_params = $par_params.filter |$k, $v| { $v != undef }
-        $task_params = $merged_vars + $defined_par_params
+        $task_params = $target['vars'] + $defined_par_params
         
         # Execute task with merged variables
         $result = run_task('paw_ansible_role_ruby', $target['host'], $task_params)
         
         # Return structured result
+        $status = if $result.ok { 'success' } else { 'failure' }
         $task_result = {
           'host'      => $target['host'],
           'task'      => 'paw_ansible_role_ruby',
-          'status'    => $result.ok ? 'success' : 'failure',
+          'status'    => $status,
           'exit_code' => $result['exit_code'],
           'stdout'    => $result['stdout'],
           'stderr'    => $result['stderr'],
-          'vars'      => $merged_vars,
+          'vars'      => $target['vars'],
         }
         $task_result
       }
@@ -123,10 +131,6 @@ plan paw_ansible_role_ruby (
   } else {
     # Sequential execution
     $targets.map |$target| {
-      # Merge group_vars and host_vars for this target
-      # PAR merge_vars handles group filtering based on target membership
-      $merged_vars = par::merge_vars($inventory['group_vars'], $target['host_vars'], $target['groups'])
-      
       # Add PAR control parameters if specified (filter out undef values)
       $par_params = {
         'par_check_mode' => $par_check_mode,
@@ -137,20 +141,21 @@ plan paw_ansible_role_ruby (
         'par_user'       => $par_user,
       }
       $defined_par_params = $par_params.filter |$k, $v| { $v != undef }
-      $task_params = $merged_vars + $defined_par_params
+      $task_params = $target['vars'] + $defined_par_params
       
       # Execute task with merged variables
       $result = run_task('paw_ansible_role_ruby', $target['host'], $task_params)
       
       # Return structured result
+      $status = if $result.ok { 'success' } else { 'failure' }
       $task_result = {
         'host'      => $target['host'],
         'task'      => 'paw_ansible_role_ruby',
-        'status'    => $result.ok ? 'success' : 'failure',
+        'status'    => $status,
         'exit_code' => $result['exit_code'],
         'stdout'    => $result['stdout'],
         'stderr'    => $result['stderr'],
-        'vars'      => $merged_vars,
+        'vars'      => $target['vars'],
       }
       $task_result
     }

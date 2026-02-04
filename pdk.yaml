@@ -1,6 +1,0 @@
----
-ignore:
-- lib/puppet_x/ansible_modules/**/*.yml
-- lib/puppet_x/ansible_modules/**/*.yaml
-- lib/puppet_x/ansible_modules/**/*.j2
-- plans/**/*.pp
