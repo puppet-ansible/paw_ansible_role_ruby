@@ -58,21 +58,21 @@
 #   Remote user for Ansible connections
 #
 # @example Execute on all hosts from file
-#   puppet plan run paw_ansible_role_ruby inventory_source=/path/to/inventory
+#   puppet plan run paw_ansible_role_ruby::paw_ansible_role_ruby inventory_source=/path/to/inventory
 #
 # @example Execute on hosts from API
-#   puppet plan run paw_ansible_role_ruby inventory_source=https://cmdb.example.com/inventory
+#   puppet plan run paw_ansible_role_ruby::paw_ansible_role_ruby inventory_source=https://cmdb.example.com/inventory
 #
 # @example Execute on specific hosts
-#   puppet plan run paw_ansible_role_ruby inventory_source=/path/to/inventory limit='webservers'
+#   puppet plan run paw_ansible_role_ruby::paw_ansible_role_ruby inventory_source=/path/to/inventory limit='webservers'
 #
 # @example Execute with custom concurrency
-#   puppet plan run paw_ansible_role_ruby inventory_source=/path/to/inventory parallel=true concurrency=5
+#   puppet plan run paw_ansible_role_ruby::paw_ansible_role_ruby inventory_source=/path/to/inventory parallel=true concurrency=5
 #
 # @example Execute in check mode with verbose output
-#   puppet plan run paw_ansible_role_ruby inventory_source=/path/to/inventory par_check_mode=true par_verbose=true
+#   puppet plan run paw_ansible_role_ruby::paw_ansible_role_ruby inventory_source=/path/to/inventory par_check_mode=true par_verbose=true
 #
-plan paw_ansible_role_ruby (
+plan paw_ansible_role_ruby::paw_ansible_role_ruby (
   String $inventory_source,
   Optional[String] $limit = undef,
   Optional[Array[String]] $groups = undef,
@@ -112,13 +112,13 @@ plan paw_ansible_role_ruby (
         $task_params = $target['vars'] + $defined_par_params
         
         # Execute task with merged variables
-        $result = run_task('paw_ansible_role_ruby', $target['host'], $task_params)
+        $result = run_task('paw_ansible_role_ruby::paw_ansible_role_ruby', $target['host'], $task_params)
         
         # Return structured result
         $status = if $result.ok { 'success' } else { 'failure' }
         $task_result = {
           'host'      => $target['host'],
-          'task'      => 'paw_ansible_role_ruby',
+          'task'      => 'paw_ansible_role_ruby::paw_ansible_role_ruby',
           'status'    => $status,
           'exit_code' => $result['exit_code'],
           'stdout'    => $result['stdout'],
@@ -144,13 +144,13 @@ plan paw_ansible_role_ruby (
       $task_params = $target['vars'] + $defined_par_params
       
       # Execute task with merged variables
-      $result = run_task('paw_ansible_role_ruby', $target['host'], $task_params)
+      $result = run_task('paw_ansible_role_ruby::paw_ansible_role_ruby', $target['host'], $task_params)
       
       # Return structured result
       $status = if $result.ok { 'success' } else { 'failure' }
       $task_result = {
         'host'      => $target['host'],
-        'task'      => 'paw_ansible_role_ruby',
+        'task'      => 'paw_ansible_role_ruby::paw_ansible_role_ruby',
         'status'    => $status,
         'exit_code' => $result['exit_code'],
         'stdout'    => $result['stdout'],
