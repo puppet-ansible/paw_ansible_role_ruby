@@ -2,7 +2,7 @@
   "name": "chrisallen-paw_ansible_role_ruby",
   "version": "0.1.0",
   "author": "chrisallen",
-  "summary": "Converted from Ansible role on 2026-02-04",
+  "summary": "Converted from Ansible role on 2026-02-05",
   "license": "Apache-2.0",
   "source": "https://github.com/example/converted-module",
   "project_page": "https://github.com/example/converted-module",
@@ -40,9 +40,12 @@
     "ruby"
   ],
   "ansible_conversion": {
-    "converter_version": "0.4.0",
-    "converted_at": "2026-02-04T14:05:20Z",
+    "converter_version": "0.5.2",
+    "converted_at": "2026-02-05T10:09:09Z",
     "source_version": "0.1.0",
     "source_type": "role"
-  }
+  },
+  "pdk-version": "3.4.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#3.4.0",
+  "template-ref": "tags/3.4.0-0-gd3cc13f"
 }
